@@ -27,9 +27,18 @@ namespace Blazing.Twilio.WasmVideo.Server
                     .AddMessagePackProtocol();
             services.Configure<TwilioSettings>(settings =>
             {
-                settings.AccountSid = GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-                settings.ApiSecret = GetEnvironmentVariable("TWILIO_API_SECRET");
-                settings.ApiKey = GetEnvironmentVariable("TWILIO_API_KEY");
+                if (!string.IsNullOrWhiteSpace(Configuration.GetValue<string>("TwilioAccountSid")))
+                {
+                    settings.AccountSid = Configuration.GetValue<string>("TwilioAccountSid");
+                    settings.ApiSecret = Configuration.GetValue<string>("TwilioApiSecret");
+                    settings.ApiKey = Configuration.GetValue<string>("TwilioApiKey");
+                }
+                else
+                {
+                    settings.AccountSid = GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+                    settings.ApiSecret = GetEnvironmentVariable("TWILIO_API_SECRET");
+                    settings.ApiKey = GetEnvironmentVariable("TWILIO_API_KEY");
+                }
             });
             services.AddSingleton<TwilioService>();
             services.AddControllersWithViews();
