@@ -24,6 +24,8 @@ namespace Blazing.Twilio.WasmVideo.Server.Services
                 twilioOptions?.Value
              ?? throw new ArgumentNullException(nameof(twilioOptions));
 
+            // Initializes the TwilioClient, given the supplied API Key and corresponding API Secret.
+            // Enables future use of various resource-based functions.
             TwilioClient.Init(_twilioSettings.ApiKey, _twilioSettings.ApiSecret);
         }
 
@@ -41,8 +43,12 @@ namespace Blazing.Twilio.WasmVideo.Server.Services
 
         public async ValueTask<IEnumerable<RoomDetails>> GetAllRoomsAsync()
         {
-            var rooms = await RoomResource.ReadAsync();
-            var tasks = rooms.Select(
+            ResourceSet<RoomResource>? rooms = await RoomResource.ReadAsync();
+            IEnumerable<Task<RoomDetails>>? tasks = rooms.Select(
+                // Note that for every room n that exists, GetRoomDetailsAsync is invoked to fetch the room’s
+                // connected participants. This can be a performance concern! Even though this is done
+                // asynchronously and in parallel, it should be considered a potential bottleneck and marked
+                // for refactoring. It isn't a concern in this demo project
                 room => GetRoomDetailsAsync(
                     room,
                     ParticipantResource.ReadAsync(
@@ -51,6 +57,8 @@ namespace Blazing.Twilio.WasmVideo.Server.Services
 
             return await Task.WhenAll(tasks);
 
+            // Ask for the corresponding ResourceSet<ParticipantResource> currently connected to the room
+            // specified with the room identifier, room.UniqueName
             static async Task<RoomDetails> GetRoomDetailsAsync(
                 RoomResource room,
                 Task<ResourceSet<ParticipantResource>> participantTask)

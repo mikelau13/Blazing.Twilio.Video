@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Blazing.Twilio.WasmVideo.Server.Controllers
 {
+    /// <summary>
+    /// The video controller will provide two HTTP GET endpoints for the Blazor client to use.
+    /// </summary>
     [
         ApiController,
         Route("api/twilio")

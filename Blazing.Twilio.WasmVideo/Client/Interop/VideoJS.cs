@@ -4,6 +4,15 @@ using System.Threading.Tasks;
 
 namespace Blazing.Twilio.WasmVideo.Client.Interop
 {
+    /// <summary>
+    /// The VideoJS class serves as an interop between the Blazor WebAssembly C# code and 
+    /// the JavaScript running in the client browser. One of the biggest misconceptions about 
+    /// WebAssembly is that people assume JavaScript is no longer needed. That is not true. 
+    /// In fact, they complement each other.
+    /// 
+    /// These interop functions expose JavaScript functionality to the Blazor WebAssembly code 
+    /// and return values from JavaScript to Blazor.
+    /// </summary>
     public static class VideoJS
     {
         public static ValueTask<Device[]> GetVideoDevicesAsync(

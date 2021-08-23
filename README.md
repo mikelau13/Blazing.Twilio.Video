@@ -7,11 +7,17 @@
 
 ## To configure environment variables
 
-Add to appsettings.Development.json:
+Add environment variables to appsettings.Development.json:
 
 > "TwilioAccountSid": "[ACCOUNT SID]",
 > "TwilioApiSecret": "[API SECRET]",
 > "TwilioApiKey": "[API keys are revokable credentials for the Twilio API]",
+
+Or by running command lines:
+
+> setx TWILIO_ACCOUNT_SID [ACCOUNT SID]
+> setx TWILIO_API_SECRET [API Secret]
+> setx TWILIO_API_KEY [SID]
 
 To learn more - [Generate Twilio API Key](https://www.twilio.com/docs/iam/keys/api-key)
 
@@ -21,8 +27,7 @@ To learn more - [Generate Twilio API Key](https://www.twilio.com/docs/iam/keys/a
 Build and run the application to ensure that it compiles and works properly: press F5 to do this from either Visual Studio or Visual Studio Code, or run the app from the .NET CLI with the dotnet run command:
 
 ```bash
-dotnet run -p Server/Blazor.Twilio.Video.Server.csproj
-
+dotnet build && dotnet run -p Server/Blazor.Twilio.Video.Server.csproj
 ```
 
 ## App start (user 1)
